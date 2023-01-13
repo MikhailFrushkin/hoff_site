@@ -1,0 +1,45 @@
+{% extends 'main_base.html' %}
+{% load i18n %}
+{% block title %}
+{% trans 'Не выставленный товар' %}
+{% endblock %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+<h2 class="text-center mb-3">Товар не представленный в зале</h2>
+
+<div class="container">
+    <div class="row">
+        {% for key, value in products.items %}
+        <div class="col-md-3 mb-5" style="max-height:600px">
+            <div class="card mb-2 box-shadow" style="min-height:600px">
+                <a href="{{value.url|safe}}">
+                    {% if value.pictures %}
+                        <img src="{{value.pictures.0}}" class="card-img-top" alt="...">
+                    {% else %}
+                        <img src="{% static 'no_photo.png' %}" class="card-img-top" alt="...">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                        <p class="card-text mb-0">Артикул: {{key}}</p>
+                        <p class="card-text mb-0">{{value.cells.0.2}}</p>
+                        <div style="max-height:300px">
+                            {% for i in value.characteristic %}
+                                <p class="card-text mb-0">{{i|safe}}</p>
+                            {% endfor %}
+                        </div>
+                        <p class="card-text mb-0">Количество упаковок: {{value.box}}</p>
+                        <p class="card-text mb-0">{{value.price}} руб.</p>
+                        <p class="card-text mb-0">Ячейки:</p>
+                        {% for j in value.cells %}
+                            <p class="card-text mb-0">{{j.0}} - {{j.1}} шт.</p>
+                        {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+{% endblock %}

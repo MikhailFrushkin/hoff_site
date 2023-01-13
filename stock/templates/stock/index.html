@@ -1,0 +1,89 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+<h2 class="text-center mb-3">Товар не представленный в зале</h2>
+<div class="row">
+    <div class="col-12 col-lg-4 col-xl-6 d-flex">
+        <div class="card radius-5">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table_sort table align-top mb-0">
+                        <col style="width:10%">
+                        <col style="width:60%">
+                        <col style="width:10%">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Товарная<br>
+                                группа</th>
+                            <th>Краткое наименование</th>
+                            <th>Количество</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, value in groups.items %}
+                        <tr>
+                            <td>
+                                <a class="link-dark" href="{% url 'stock:stock_group' key %}">
+                                    {{key}}
+                                </a>
+                            </td>
+                            <td>
+                                <a class="link-dark" href="{% url 'stock:stock_group' key %}">
+                                    {{value.1}}
+                                </a>
+                            </td>
+                            <td>{{value.0}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card radius-10">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table_sort table align-middle mb-0">
+                <col style="width:5%">
+                <col style="width:15%">
+                <col style="width:15%">
+                <col style="width:30%">
+                <col style="width:5%">
+                <col style="width:5%">
+                <col style="width:15%">
+                <col style="width:10%">
+                <thead class="table-light">
+                <tr>
+                    <th>№</th>
+                    <th>Код номенклатуры</th>
+                    <th>Краткое наименование</th>
+                    <th>Описание товара</th>
+                    <th>ТГ</th>
+                    <th>НГ</th>
+                    <th>Ячейка</th>
+                    <th>Доступно</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in stock %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.short_name}}</td>
+                    <td>{{item.name|truncatechars:50}}</td>
+                    <td>{{item.tg}}</td>
+                    <td>{{item.ng}}</td>
+                    <td>{{item.place}}</td>
+                    <td>{{item.free_num}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

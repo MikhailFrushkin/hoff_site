@@ -1,0 +1,112 @@
+{% extends 'main_base.html' %}
+{% load i18n %}
+{% block title %}
+{% trans 'Проверка R' %}
+{% endblock %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md-4 order-md-1 mb-5">
+        {% for field in form %}
+        <div class=" mb-3">
+            <h3>{{ field.label_tag }}</h3>
+            <h3 class="fw-bold" style="color:red">{{ field.errors }}</h3>
+            {{ field }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-auto mb-3 mt-3">
+        <button class="btn btn-lg btn-outline-secondary ml-4" type="submit">{% trans 'Загрузить файлы' %}</button>
+    </div>
+</form>
+{% if none %}
+<h2 class="text-center mb-3">Нет в документе</h2>
+<div class="card radius-10">
+    <div class="card-header bg-transparent">
+        <div class="row g-3 align-items-center">
+            <div class="col">
+                <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                    <div class="dropdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table_sort table align-middle mb-0">
+                <col style="width:5%">
+                <col style="width:30%">
+                <thead class="table-light">
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Груз</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in over %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if none %}
+<h2 class="text-center mb-3">Не отсканированные R, B</h2>
+<div class="card radius-10">
+    <div class="card-header bg-transparent">
+        <div class="row g-3 align-items-center">
+            <div class="col">
+                <div class="d-flex align-items-center justify-content-end gap-3 cursor-pointer">
+                    <div class="dropdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table_sort table align-middle mb-0">
+                <col style="width:5%">
+                <col style="width:10%">
+                <col style="width:30%">
+                <col style="width:10%">
+                <col style="width:15%">
+                <col style="width:15%">
+                <col style="width:15%">
+                <thead class="table-light">
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Код товара</th>
+                    <th>Товар</th>
+                    <th>Кол-во товара</th>
+                    <th>Груз</th>
+                    <th>Поставщик</th>
+                    <th>Упаковка</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, value in none_dict.items %}
+                <tr>
+                    <td>{{ value.0 }}</td>
+                    <td>{{ value.1 }}</td>
+                    <td>{{ value.2 }}</td>
+                    <td>{{ value.3 }}</td>
+                    <td>{{ value.9 }}</td>
+                    <td>{{ value.10 }}</td>
+                    <td>{{ value.12 }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+{% trans 'Загрузка файлов' %}
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} <br>
+        {{ field }}<hr>
+    </div>
+    {% endfor %}
+
+    <div class="col-auto mb-3 mt-3">
+        <button class="btn btn-sm btn-outline-secondary" type="submit">{% trans 'Загрузить файлы' %}</button>
+    </div>
+</form>
+{% endblock %}
